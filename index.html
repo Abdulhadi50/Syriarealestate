@@ -1113,7 +1113,7 @@
         }
 
         function goToProfile() {
-            window.location.href = 'go:profile';
+            window.location.href = 'profile.profile.html';
         }
 
         function toggleListingMenu(listingId) {
@@ -1321,7 +1321,7 @@
             const user = firebase.auth().currentUser;
             if (!user) {
                 showCustomAlert('يرجى تسجيل الدخول لنشر الإعلان', 'error');
-                window.location.href = 'go:login';
+                window.location.href = 'login.html';
                 return;
             }
             document.getElementById('postModal').style.display = 'flex';
