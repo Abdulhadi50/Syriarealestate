@@ -1321,7 +1321,7 @@
             const user = firebase.auth().currentUser;
             if (!user) {
                 showCustomAlert('يرجى تسجيل الدخول لنشر الإعلان', 'error');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
                 return;
             }
             document.getElementById('postModal').style.display = 'flex';
