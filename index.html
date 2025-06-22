@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>منصة إعلانات العقارات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+    :root {
+    --primary: #D1AD59;
+    --secondary: #1B1A17;
+    --text: #fff;
+    --muted: #fff;
+    --light-muted: #adb5bd;
+    --background: #121212;
+    --card-bg: #121212;
+    --success: #01B276;
+    --error: #FE2B54;
+    --hover: #D1AD59;
+    --border: #ced4da;
+}
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Rubik', sans-serif;
+    }
+
+    body {
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        user-select: none;
+    }
+
+    .main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .top-bar {
+        width: 100%;
+        background: var(--card-bg);
+        padding: 15px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .search-bar {
+        flex-grow: 1;
+        margin: 0 15px;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 8px 35px 8px 35px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--secondary);
+        color: var(--text);
+        font-size: 0.9em;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 1.2em;
+    }
+
+    .refresh-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.2em;
+    transition: color 0.3s;
+    padding: 8px;
+}
+
+    .refresh-btn:hover {
+        color: var(--primary);
+    }
+
+    .refresh-btn:disabled {
+        color: var(--light-muted);
+        cursor: not-allowed;
+    }
+
+    .profile-pic {
+        width: 45px;
+        height: 45px;
+        border-radius: 20%;
+        object-fit: cover;
+        transition: none;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 80px auto 80px;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .new-post-btn {
+        position: fixed;
+        bottom: 30px;
+        left: 30px;
+        background: linear-gradient(to right, var(--primary), var(--hover));
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+    }
+
+    .new-post-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .listing {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 1px solid var(--border);
+        transition: 0.2s;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+    .listing-menu {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    .listing-menu-btn {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.2em;
+    }
+
+    .listing-menu-dropdown {
+        display: none;
+        position: absolute;
+        top: 25px;
+        left: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+
+    .listing-menu-dropdown.show {
+        display: block;
+    }
+
+    .listing-menu-dropdown button {
+        background: none;
+        border: none;
+        padding: 10px 15px;
+        color: var(--text);
+        width: 100%;
+        text-align: right;
+    }
+
+    .listing-menu-dropdown button:hover {
+        background: var(--secondary);
+    }
+
+    .listing-menu-dropdown button.delete {
+        color: var(--error);
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .user-avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 20%;
+        object-fit: cover;
+        margin-left: 10px;
+    }
+
+    .user-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-name {
+        font-weight: bold;
+        margin-bottom: 3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .verified-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .listing-content {
+        margin-bottom: 15px;
+        line-height: 1.6;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .listing-address {
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .listing-description {
+        margin-top: 10px;
+    }
+
+    .listing-media {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .listing-image {
+        width: 50%;
+        border-radius: 15px;
+        object-fit: cover;
+        max-height: 200px;
+    }
+
+    .listing-actions {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+    }
+
+    .action-btn {
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 15px;
+        transition: 0.3s;
+        background: none;
+    }
+
+    .action-btn:hover {
+        background: rgba(0, 123, 255, 0.1);
+    }
+
+    .action-btn i {
+        font-size: 1.4em;
+    }
+
+    .whatsapp-btn, .map-btn, .instagram-btn, .phone-btn, .other-btn {
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 15px;
+        transition: 0.3s;
+        background: none;
+    }
+
+    .whatsapp-btn:hover, .map-btn:hover, .instagram-btn:hover, .phone-btn:hover, .other-btn:hover {
+        background: rgba(0, 123, 255, 0.1);
+    }
+
+    .whatsapp-btn i, .map-btn i, .instagram-btn i, .phone-btn i, .other-btn i {
+        font-size: 1.4em;
+    }
+
+    .post-modal, .image-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        overflow-y: auto;
+    }
+
+    .post-content {
+        background: var(--card-bg);
+        max-width: 500px;
+        width: 90%;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .post-header {
+        background: var(--primary);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .post-body {
+        padding: 20px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+
+    .comments-panel {
+        position: fixed;
+        bottom: -75%;
+        left: 0;
+        right: 0;
+        height: 75%;
+        background-color: #282827;
+        z-index: 2000;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        overflow: hidden;
+        transition: bottom 0.3s ease;
+        box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .comments-panel.show {
+        bottom: 0;
+    }
+
+    .comments-content {
+        width: 100%;
+        height: 100%;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .comments-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px 0;
+    }
+
+    .comment-entry {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .comment-entry-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-left: 10px;
+        flex-shrink: 0;
+    }
+
+    .comment-entry-content {
+        flex-grow: 1;
+        position: relative;
+    }
+
+    .comment-entry-name {
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.6em;
+    }
+
+    .comment-entry-time {
+        color: var(--muted);
+        font-size: 0.75em;
+        font-style: normal;
+        margin-right: 5px;
+    }
+
+    .comment-entry-text {
+        color: var(--text);
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        line-height: 1.7;
+        font-size: 0.85em;
+    }
+
+    .comment-entry-actions {
+        position: absolute;
+        left: 0;
+        bottom: 5px;
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .comment-entry-actions button {
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1em;
+        padding: 0;
+    }
+
+    .image-modal img {
+        max-width: 90%;
+        max-height: 90vh;
+        border-radius: 15px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .comments-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    #listing-description, #comment-text {
+        width: 100%;
+        background: var(--secondary);
+        border: 0px solid var(--border);
+        border-radius: 15px;
+        color: var(--text);
+        padding: 8px;
+        font-size: 0.9em;
+        resize: none;
+        min-height: 40px;
+    }
+
+    #listing-description:focus, #comment-text:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .media-preview {
+        position: relative;
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+    }
+
+    .media-preview img {
+        width: 50%;
+        border-radius: 15px;
+        object-fit: cover;
+        max-height: 120px;
+    }
+
+    .remove-media {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9em;
+    }
+
+    .post-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding: 15px 20px;
+        border-top: 1px solid var(--border);
+    }
+
+    .char-counter {
+        color: var(--muted);
+        font-size: 0.8em;
+    }
+
+    .listing-time {
+        color: var(--muted);
+        font-size: 0.75em;
+        font-style: normal;
+        margin-top: 10px;
+        display: block;
+    }
+
+    .comment-input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-top: 10px;
+    }
+
+    .comment-post-btn {
+        background: none;
+        color: var(--primary);
+        border: none;
+        font-size: 1.5em;
+        transition: color 0.3s ease;
+    }
+
+    .comment-post-btn:hover {
+        color: var(--hover);
+    }
+
+    .post-btn {
+        position: relative;
+        background: var(--primary);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 10px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        font-size: 0.9em;
+    }
+
+    .post-btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-top: 2px solid transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .custom-alert {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--card-bg);
+        padding: 15px;
+        border-radius: 10px;
+        z-index: 2000;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .custom-alert.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .custom-alert.success {
+        border-left: 5px solid var(--success);
+    }
+
+    .custom-alert.error {
+        border-left: 5px solid var(--error);
+    }
+
+    .custom-alert p {
+        margin: 0;
+        font-size: 0.9em;
+        color: var(--text);
+    }
+
+    .custom-alert button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+        transition: background 0.3s;
+        font-size: 0.9em;
+    }
+
+    .custom-alert button:hover {
+        background: var(--hover);
+    }
+
+    .close-comments-btn {
+        padding: 8px 15px;
+        font-size: 1.5em;
+        background: none;
+        border: none;
+    }
+
+    .close-comments-btn i {
+        font-size: 1em;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 0.9em;
+    }
+
+    .form-group select, .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--secondary);
+        color: var(--text);
+        font-size: 0.9em;
+    }
+
+    .form-group select:focus, .form-group input:focus, .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+
+    .media-upload-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .media-upload-btn {
+        background: var(--secondary);
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .contact-method-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .contact-method-entry {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+    }
+
+    .contact-method-entry select {
+        flex: 1;
+    }
+
+    .contact-method-entry input {
+        flex: 2;
+    }
+
+    .contact-method-entry input.country-code-input {
+        flex: 0.5;
+        min-width: 80px;
+    }
+
+    .remove-contact-btn {
+        background: var(--error);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9em;
+    }
+
+    .add-contact-btn {
+        background: var(--primary);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 10px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9em;
+    }
+
+    .add-contact-btn.hidden {
+        display: none;
+    }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-storage.js"></script>
+</head>
+<body>
+    <div class="top-bar">
+        <img id="profilePic" class="profile-pic" alt="صورة المستخدم" onclick="goToProfile()">
+        <div class="search-bar">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="ابحث عن مدينة أو حي...">
+        </div>
+        <button class="refresh-btn" id="refreshBtn" title="تحديث"><i class="fas fa-sync-alt"></i></button>
+    </div>
+
+    <div class="main-container">
+        <div class="container" id="feed"></div>
+        <div class="comments-panel" id="commentsPanel">
+            <div class="comments-content">
+                <div class="comments-header">
+                    <h3>التعليقات</h3>
+                    <button class="action-btn close-comments-btn" onclick="closeCommentsPanel()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="comments-list" id="commentsList"></div>
+                <div class="comment-input">
+                    <textarea id="comment-text" maxlength="200" placeholder="اكتب تعليقًا"></textarea>
+                    <button class="comment-post-btn" onclick="postComment()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-post-btn" id="newPostBtn" onclick="openPostModal()">
+            <i class="fas fa-home fa-lg"></i>
+        </div>
+
+        <div class="post-modal" id="postModal">
+            <div class="post-content">
+                <div class="post-header">
+                    <h2 style="font-size: 1.2em;">إنشاء إعلان عقاري</h2>
+                    <button class="action-btn" onclick="closePostModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="post-body">
+                    <div class="form-group">
+                        <label for="listing-type">نوع الإعلان</label>
+                        <select id="listing-type">
+                            <option value="rent">للإيجار</option>
+                            <option value="sale">للبيع</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="listing-price">السعر</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="number" id="listing-price" placeholder="أدخل السعر">
+                            <select id="currency">
+                                <option value="TRY">ليرة تركية</option>
+                                <option value="SYP">ليرة سورية</option>
+                                <option value="USD">دولار أمريكي</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">المدينة</label>
+                        <select id="city" onchange="updateNeighborhoods()">
+                            <option value="">اختر المدينة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="neighborhood">الحي</label>
+                        <select id="neighborhood">
+                            <option value="">اختر الحي</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="manual-address">العنوان اليدوي</label>
+                        <input type="text" id="manual-address" placeholder="أدخل العنوان يدويًا">
+                    </div>
+                    <div class="form-group">
+                        <label>طرق التواصل</label>
+                        <div id="contact-methods">
+                            <div class="contact-method-group">
+                                <div class="contact-method-entry">
+                                    <select class="contact-method">
+                                        <option value="whatsapp">واتساب</option>
+                                        <option value="phone">رقم هاتف</option>
+                                        <option value="instagram">إنستغرام</option>
+                                        <option value="other">أخرى</option>
+                                    </select>
+                                    <input type="text" class="country-code-input" placeholder="رمز الدولة (مثل +963)" style="display: none;">
+                                    <input type="text" class="contact-info" placeholder="أدخل رقم الواتساب/الهاتف/معرف إنستغرام">
+                                    <button class="remove-contact-btn" style="display: none;">×</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-contact-btn" id="addContactBtn" onclick="addContactMethod()">
+                            <i class="fas fa-plus"></i> إضافة طريقة تواصل
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="listing-description">وصف العقار (اختياري)</label>
+                        <textarea id="listing-description" maxlength="500" placeholder="وصف العقار"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>تحميل صورة (اختياري، صورة واحدة فقط)</label>
+                        <div class="media-upload-group">
+                            <input type="file" id="mediaUpload" accept="image/*" hidden>
+                            <label for="mediaUpload" class="media-upload-btn action-btn">
+                                <i class="fas fa-photo-video"></i> اختر الصورة
+                            </label>
+                        </div>
+                        <div class="media-preview" id="mediaPreview"></div>
+                    </div>
+                </div>
+                <div class="post-footer">
+                    <div class="char-counter">
+                        <span id="charCount">500</span>
+                    </div>
+                    <button class="post-btn" id="postBtn" onclick="postListing()">نشر</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="image-modal" id="mediaModal" onclick="closeMediaModal()">
+            <div id="modalMedia"></div>
+        </div>
+    </div>
+
+    <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4aW-Mr469PsIYT8n3jL--GbtRU5OTWdo",
+            authDomain: "smart-pay-6a9b8.firebaseapp.com",
+            projectId: "smart-pay-6a9b8",
+            storageBucket: "smart-pay-6a9b8.appspot.com",
+            messagingSenderId: "9418007073",
+            appId: "1:9418007073:web:72e0144eb56524fc263960"
+        };
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase تم تهيئته بنجاح");
+        } catch (error) {
+            console.error("خطأ في تهيئة Firebase:", error);
+        }
+
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+        let listings = [];
+        let selectedMedia = [];
+        let currentUserData = {};
+        let currentListingId = null;
+        let verifiedCache = {};
+
+        // قائمة المدن والأحياء في سوريا
+        const syrianCities = {
+            "دمشق": ["المزة", "كفرسوسة", "برزة", "القابون", "المالكي"],
+            "ادلب": ["معرة النعمان", "جسر الشغور", "أريحا", "سراقب", "خان شيخون"],
+            "حلب": ["الصالحين", "الجميلية", "الفرقان", "حي السكري", "الشيخ مقصود"],
+            "حمص": ["الوعر", "البياضة", "عكرمة", "الخالدية", "بابا عمرو"],
+            "اللاذقية": ["الرمل", "القرداحة", "مشروع الصليبة", "الأزهري", "سكنتوري"],
+            "طرطوس": ["الحميدية", "المنشية", "الروضة", "بانياس", "القدموس"],
+            "دير الزور": ["القصور", "الحميدية", "الجورة", "الميادين", "البوكمال"],
+            "الرقة": ["المشلب", "الثورة", "المعدان", "التايهة", "السبخة"],
+            "الحسكة": ["النشوة", "غويران", "الصالحية", "قامشلي", "عامودا"],
+            "القنيطرة": ["خان أرنبة", "البعث", "المقروصة", "الرفيد", "جباتا الخشب"],
+            "درعا": ["البلد", "المخيم", "الصنمين", "بصرى", "طفس"],
+            "السويداء": ["المزيرعة", "شهبا", "صلخد", "عريقة", "القريا"],
+            "حماة": ["السلمية", "محردة", "كفر زيتا", "طيبة الإمام", "صوران"],
+            "ريف دمشق": ["دوما", "حرستا", "التل", "جرمانا", "معضمية الشام"]
+        };
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        currentUserData = userDoc.data();
+                    } else {
+                        currentUserData = { balance: 0, verified: false };
+                        await db.collection('users').doc(user.uid).set({
+                            name: 'مستخدم',
+                            handle: '@user',
+                            avatar: 'https://via.placeholder.com/50',
+                            balance: 0,
+                            verified: false
+                        }, { merge: true });
+                    }
+                    document.getElementById('profilePic').src = currentUserData.avatar || 'https://via.placeholder.com/40';
+                    populateCities();
+                    await loadListings(user.uid);
+                } catch (error) {
+                    console.error("خطأ في جلب بيانات المستخدم:", error);
+                    showCustomAlert('خطأ في جلب بيانات المستخدم', 'error');
+                }
+            }
+        });
+
+        function showCustomAlert(message, type = 'success') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `custom-alert ${type}`;
+            alertDiv.innerHTML = `
+                <p>${message}</p>
+                <button onclick="this.parentElement.remove()">حسنًا</button>
+            `;
+            document.body.appendChild(alertDiv);
+            setTimeout(() => alertDiv.classList.add('show'), 10);
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+
+        function populateCities() {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">اختر المدينة</option>';
+            Object.keys(syrianCities).forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+
+        function updateNeighborhoods() {
+            const city = document.getElementById('city').value;
+            const neighborhoodSelect = document.getElementById('neighborhood');
+            neighborhoodSelect.innerHTML = '<option value="">اختر الحي</option>';
+            if (city && syrianCities[city]) {
+                syrianCities[city].forEach(neighborhood => {
+                    const option = document.createElement('option');
+                    option.value = neighborhood;
+                    option.textContent = neighborhood;
+                    neighborhoodSelect.appendChild(option);
+                });
+            }
+        }
+
+        function formatNumber(num = 0) {
+            if (num >= 1000) {
+                const formatted = (num / 1000).toFixed(num % 1000 >= 100 ? 1 : 0);
+                return formatted.endsWith('.0') ? `${formatted.slice(0, -2)}K` : `${formatted}K`;
+            }
+            return num;
+        }
+
+        async function loadListings(userId) {
+            try {
+                const listingsSnapshot = await db.collection('listings').limit(100).get();
+                listings = listingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                for (let i = listings.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [listings[i], listings[j]] = [listings[j], listings[i]];
+                }
+                renderListings(userId);
+            } catch (error) {
+                console.error("خطأ في جلب الإعلانات:", error);
+                showCustomAlert('خطأ في جلب الإعلانات', 'error');
+            }
+        }
+
+        async function getUserVerificationStatus(userId) {
+            if (verifiedCache[userId] !== undefined) {
+                return verifiedCache[userId];
+            }
+            try {
+                const userDoc = await db.collection('users').doc(userId).get();
+                const verified = userDoc.exists ? userDoc.data().verified || false : false;
+                verifiedCache[userId] = verified;
+                return verified;
+            } catch (error) {
+                console.error("خطأ في جلب حالة التحقق:", error);
+                return false;
+            }
+        }
+
+        async function renderListings(userId) {
+            const feed = document.getElementById('feed');
+            feed.innerHTML = '';
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredListings = listings.filter(listing => 
+                listing.city.toLowerCase().includes(searchTerm) ||
+                (listing.neighborhood && listing.neighborhood.toLowerCase().includes(searchTerm)) ||
+                (listing.manualAddress && listing.manualAddress.toLowerCase().includes(searchTerm))
+            );
+            for (const listing of filteredListings) {
+                await renderSingleListing(listing, userId, feed);
+            }
+        }
+
+        async function renderSingleListing(listing, userId, feed, prepend = false) {
+            if (!listing) return;
+            const listingEl = document.createElement('div');
+            listingEl.className = 'listing';
+            listingEl.id = `listing-${listing.id}`;
+
+            const isOwner = listing.userId === userId;
+            const addressParts = [listing.city];
+            if (listing.neighborhood) addressParts.push(listing.neighborhood);
+            if (listing.manualAddress) addressParts.push(listing.manualAddress);
+            const fullAddress = addressParts.join(', ');
+
+            const isVerified = await getUserVerificationStatus(listing.userId);
+
+            let mediaHtml = '';
+            if (listing.images && listing.images.length > 0) {
+                mediaHtml = '<div class="listing-media">';
+                listing.images.forEach(image => {
+                    mediaHtml += `<img src="${image}" class="listing-image" alt="صورة العقار" onclick="openMediaModal('${image}', 'image')">`;
+                });
+                mediaHtml += '</div>';
+            }
+
+            listingEl.innerHTML = `
+                ${isOwner ? `
+                <div class="listing-menu">
+                    <button class="listing-menu-btn" onclick="toggleListingMenu('${listing.id}')"><i class="fas fa-ellipsis-h"></i></button>
+                    <div class="listing-menu-dropdown" id="menu-${listing.id}">
+                        <button class="delete" onclick="deleteListing('${listing.id}')">حذف الإعلان</button>
+                    </div>
+                </div>` : ''}
+                <div class="user-info">
+                    <img src="${listing.avatar || 'https://via.placeholder.com/50'}" class="user-avatar" alt="صورة المستخدم">
+                    <div class="user-details">
+                        <div class="user-name">${listing.name || 'مستخدم'}
+                            ${isVerified ? `<img src="https://up6.cc/2025/01/173772594545191.png" class="verified-icon" alt="موثق">` : ''}
+                        </div>
+                    </div>
+                </div>
+                <div class="listing-content">
+                    <div class="listing-address">
+                        <strong>النوع:</strong> ${listing.type === 'rent' ? 'للإيجار' : 'للبيع'}<br>
+                        <strong>السعر:</strong> ${listing.price} ${listing.currency}<br>
+                        <strong>العنوان:</strong> ${fullAddress}
+                    </div>
+                    <div class="listing-description">
+                        <p>${listing.description || ''}</p>
+                    </div>
+                </div>
+                ${mediaHtml}
+                <div class="listing-actions">
+                    ${listing.contacts && listing.contacts.some(c => c.method === 'whatsapp') ? `
+                    <div class="whatsapp-btn" onclick="openWhatsApp('${listing.contacts.find(c => c.method === 'whatsapp').countryCode}${listing.contacts.find(c => c.method === 'whatsapp').info}')">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>` : ''}
+                    ${listing.contacts && listing.contacts.some(c => c.method === 'phone') ? `
+                    <div class="phone-btn" onclick="openPhone('${listing.contacts.find(c => c.method === 'phone').countryCode}${listing.contacts.find(c => c.method === 'phone').info}')">
+                        <i class="fas fa-phone"></i>
+                    </div>` : ''}
+                    ${listing.contacts && listing.contacts.some(c => c.method === 'instagram') ? `
+                    <div class="instagram-btn" onclick="openInstagram('${listing.contacts.find(c => c.method === 'instagram').info}')">
+                        <i class="fab fa-instagram"></i>
+                    </div>` : ''}
+                    ${listing.contacts && listing.contacts.some(c => c.method === 'other') ? `
+                    <div class="other-btn" onclick="openOtherContact('${listing.contacts.find(c => c.method === 'other').info}')">
+                        <i class="fas fa-link"></i>
+                    </div>` : ''}
+                    <div class="action-btn" onclick="openCommentsPanel('${listing.id}')">
+                        <i class="fas fa-comment"></i>
+                        <span>${formatNumber(listing.comments ? Object.keys(listing.comments).length : 0)}</span>
+                    </div>
+                    <div class="map-btn" onclick="openMap('${fullAddress}')">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+                <span class="listing-time">${timeAgo(listing.time instanceof firebase.firestore.Timestamp ? listing.time.toMillis() : listing.time || Date.now())}</span>
+            `;
+            if (prepend) {
+                feed.insertBefore(listingEl, feed.firstChild);
+            } else {
+                feed.appendChild(listingEl);
+            }
+        }
+
+        function goToProfile() {
+            window.location.href = 'go:profile';
+        }
+
+        function toggleListingMenu(listingId) {
+            const menu = document.getElementById(`menu-${listingId}`);
+            if (menu) {
+                menu.classList.toggle('show');
+            }
+        }
+
+        async function deleteListing(listingId) {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            const listing = listings.find(l => l.id === listingId);
+            if (!listing || listing.userId !== user.uid) {
+                showCustomAlert('لا يمكنك حذف هذا الإعلان', 'error');
+                return;
+            }
+
+            try {
+                await db.collection('listings').doc(listingId).delete();
+                listings = listings.filter(l => l.id !== listingId);
+                const listingEl = document.getElementById(`listing-${listingId}`);
+                if (listingEl) listingEl.remove();
+                showCustomAlert('تم حذف الإعلان بنجاح', 'success');
+            } catch (error) {
+                console.error("خطأ في حذف الإعلان:", error);
+                showCustomAlert('خطأ في حذف الإعلان', 'error');
+            }
+        }
+
+        function openWhatsApp(contactInfo) {
+            const cleanNumber = contactInfo.replace(/\D/g, '');
+            const url = `https://wa.me/${cleanNumber}`;
+            window.open(url, '_blank');
+        }
+
+        function openPhone(contactInfo) {
+            const cleanNumber = contactInfo.replace(/\D/g, '');
+            const url = `tel:${cleanNumber}`;
+            window.open(url, '_blank');
+        }
+
+        function openInstagram(contactInfo) {
+            const username = contactInfo.replace(/^@/, '');
+            const url = `https://www.instagram.com/${username}`;
+            window.open(url, '_blank');
+        }
+
+        function openOtherContact(contactInfo) {
+            let url = contactInfo;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = `https://${url}`;
+            }
+            window.open(url, '_blank');
+        }
+
+        function openMap(address) {
+            const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+            window.open(url, '_blank');
+        }
+
+        async function openCommentsPanel(listingId) {
+            currentListingId = listingId;
+            const listing = listings.find(l => l.id === listingId);
+            if (!listing) {
+                showCustomAlert('الإعلان غير موجود', 'error');
+                return;
+            }
+
+            const comments = listing.comments ? Object.values(listing.comments) : [];
+            const commentsList = document.getElementById('commentsList');
+            let commentsHtml = '';
+
+            if (comments.length > 0) {
+                for (const [commentId, comment] of Object.entries(listing.comments)) {
+                    const commentTime = timeAgo(comment.time instanceof firebase.firestore.Timestamp ? comment.time.toMillis() : comment.time || Date.now());
+                    const isCommentOwner = comment.userId === firebase.auth().currentUser?.uid;
+                    const isListingOwner = listing.userId === firebase.auth().currentUser?.uid;
+                    const isVerified = await getUserVerificationStatus(comment.userId);
+
+                    commentsHtml += `
+                        <div class="comment-entry" data-comment-id="${commentId}">
+                            <img src="${comment.avatar || 'https://via.placeholder.com/40'}" 
+                                 class="comment-entry-avatar" 
+                                 alt="صورة المستخدم">
+                            <div class="comment-entry-content">
+                                <div class="comment-entry-name">
+                                    <span>${comment.userName || 'مستخدم'}</span>
+                                    ${isVerified ? `<img src="https://up6.cc/2025/01/173772594545191.png" class="verified-icon" alt="موثق">` : ''}
+                                    <span class="comment-entry-time">${commentTime}</span>
+                                </div>
+                                <div class="comment-entry-text">${comment.text}</div>
+                                <div class="comment-entry-actions">
+                                    ${(isCommentOwner || isListingOwner) ? `<button class="delete" onclick="deleteComment('${listingId}', '${commentId}')"><i class="fas fa-trash"></i></button>` : ''}
+                                </div>
+                            </div>
+                        </div>`;
+                }
+            } else {
+                commentsHtml = '<div class="comment-entry">لا توجد تعليقات بعد</div>';
+            }
+
+            commentsList.innerHTML = commentsHtml;
+            document.getElementById('comment-text').value = '';
+            const panel = document.getElementById('commentsPanel');
+            panel.classList.add('show');
+        }
+
+        function closeCommentsPanel() {
+            document.getElementById('commentsPanel').classList.remove('show');
+            currentListingId = null;
+        }
+
+        async function postComment() {
+            const user = firebase.auth().currentUser;
+            if (!user || !currentListingId) return;
+
+            const commentText = document.getElementById('comment-text').value;
+            if (!commentText.trim()) return;
+
+            if (commentText.length > 200) {
+                showCustomAlert('التعليق يتجاوز الحد الأقصى (200 حرف)', 'error');
+                return;
+            }
+
+            const listingRef = db.collection('listings').doc(currentListingId);
+            const commentId = db.collection('listings').doc().id;
+            const newComment = {
+                text: commentText,
+                userId: user.uid,
+                userName: currentUserData.name || 'مستخدم',
+                avatar: currentUserData.avatar || 'https://via.placeholder.com/30',
+                time: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await listingRef.update({
+                    [`comments.${commentId}`]: newComment
+                });
+
+                const listing = listings.find(l => l.id === currentListingId);
+                if (!listing.comments) listing.comments = {};
+                listing.comments[commentId] = newComment;
+
+                const commentsList = document.getElementById('commentsList');
+                const isVerified = await getUserVerificationStatus(user.uid);
+                const commentHtml = `
+                    <div class="comment-entry" data-comment-id="${commentId}">
+                        <img src="${newComment.avatar}" 
+                             class="comment-entry-avatar" 
+                             alt="صورة المستخدم">
+                        <div class="comment-entry-content">
+                            <div class="comment-entry-name">
+                                <span>${newComment.userName}</span>
+                                ${isVerified ? `<img src="https://up6.cc/2025/01/173772594545191.png" class="verified-icon" alt="موثق">` : ''}
+                                <span class="comment-entry-time">الآن</span>
+                            </div>
+                            <div class="comment-entry-text">${newComment.text}</div>
+                            <div class="comment-entry-actions">
+                                <button class="delete" onclick="deleteComment('${currentListingId}', '${commentId}')"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>`;
+                commentsList.insertAdjacentHTML('afterbegin', commentHtml);
+
+                document.getElementById('comment-text').value = '';
+            } catch (error) {
+                console.error("خطأ في نشر التعليق:", error);
+                showCustomAlert('خطأ في نشر التعليق', 'error');
+            }
+        }
+
+        async function deleteComment(listingId, commentId) {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            const listing = listings.find(l => l.id === listingId);
+            if (!listing || !listing.comments || !listing.comments[commentId]) return;
+
+            const isCommentOwner = listing.comments[commentId].userId === user.uid;
+            const isListingOwner = listing.userId === user.uid;
+
+            if (!isCommentOwner && !isListingOwner) {
+                showCustomAlert('لا يمكنك حذف هذا التعليق', 'error');
+                return;
+            }
+
+            try {
+                const listingRef = db.collection('listings').doc(listingId);
+                await listingRef.update({
+                    [`comments.${commentId}`]: firebase.firestore.FieldValue.delete()
+                });
+
+                delete listing.comments[commentId];
+                if (currentListingId === listingId) openCommentsPanel(listingId);
+                showCustomAlert('تم حذف التعليق بنجاح', 'success');
+            } catch (error) {
+                console.error("خطأ في حذف التعليق:", error);
+                showCustomAlert('خطأ في حذف التعليق', 'error');
+            }
+        }
+
+        function openPostModal() {
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                showCustomAlert('يرجى تسجيل الدخول لنشر الإعلان', 'error');
+                window.location.href = 'go:login';
+                return;
+            }
+            document.getElementById('postModal').style.display = 'flex';
+            updateCharCount();
+            updateContactMethodFields();
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.getElementById('mediaPreview').innerHTML = '';
+            document.getElementById('listing-description').value = '';
+            document.getElementById('listing-price').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('neighborhood').innerHTML = '<option value="">اختر الحي</option>';
+            document.getElementById('manual-address').value = '';
+            document.getElementById('contact-methods').innerHTML = `
+                <div class="contact-method-group">
+                    <div class="contact-method-entry">
+                        <select class="contact-method">
+                            <option value="whatsapp">واتساب</option>
+                            <option value="phone">رقم هاتف</option>
+                            <option value="instagram">إنستغرام</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                        <input type="text" class="country-code-input" placeholder="رمز الدولة (مثل +963)" style="display: none;">
+                        <input type="text" class="contact-info" placeholder="أدخل رقم الواتساب/الهاتف/معرف إنستغرام">
+                        <button class="remove-contact-btn" style="display: none;">×</button>
+                    </div>
+                </div>`;
+            document.getElementById('addContactBtn').classList.remove('hidden');
+            selectedMedia = [];
+            updateCharCount();
+            updateContactMethodFields();
+        }
+
+        function openMediaModal(mediaUrl, mediaType) {
+            const modal = document.getElementById('mediaModal');
+            const modalMedia = document.getElementById('modalMedia');
+            modalMedia.innerHTML = '';
+            if (mediaType === 'image') {
+                const img = document.createElement('img');
+                img.src = mediaUrl;
+                img.alt = 'صورة العقار';
+                modalMedia.appendChild(img);
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeMediaModal() {
+            document.getElementById('mediaModal').style.display = 'none';
+            document.getElementById('modalMedia').innerHTML = '';
+        }
+
+        function addContactMethod() {
+            const contactMethods = document.getElementById('contact-methods');
+            if (contactMethods.children.length >= 4) {
+                showCustomAlert('لا يمكن إضافة أكثر من 4 طرق تواصل', 'error');
+                return;
+            }
+
+            const selectedMethods = Array.from(document.querySelectorAll('.contact-method')).map(select => select.value);
+
+            const newEntry = document.createElement('div');
+            newEntry.className = 'contact-method-group';
+            newEntry.innerHTML = `
+                <div class="contact-method-entry">
+                    <select class="contact-method">
+                        <option value="whatsapp" ${selectedMethods.includes('whatsapp') ? 'disabled' : ''}>واتساب</option>
+                        <option value="phone" ${selectedMethods.includes('phone') ? 'disabled' : ''}>رقم هاتف</option>
+                        <option value="instagram" ${selectedMethods.includes('instagram') ? 'disabled' : ''}>إنستغرام</option>
+                        <option value="other" ${selectedMethods.includes('other') ? 'disabled' : ''}>أخرى</option>
+                    </select>
+                    <input type="text" class="country-code-input" placeholder="رمز الدولة (مثل +963)" style="display: none;">
+                    <input type="text" class="contact-info" placeholder="أدخل رقم الواتساب/الهاتف/معرف إنستغرام">
+                    <button class="remove-contact-btn" onclick="this.parentElement.parentElement.remove(); updateContactMethodFields();">×</button>
+                </div>`;
+            contactMethods.appendChild(newEntry);
+            updateContactMethodFields();
+        }
+
+        function updateContactMethodFields() {
+            const contactMethods = document.querySelectorAll('.contact-method-entry');
+            const addContactBtn = document.getElementById('addContactBtn');
+            const selectedMethods = Array.from(document.querySelectorAll('.contact-method')).map(select => select.value);
+
+            contactMethods.forEach((entry, index) => {
+                const methodSelect = entry.querySelector('.contact-method');
+                const countryCodeInput = entry.querySelector('.country-code-input');
+                const contactInfo = entry.querySelector('.contact-info');
+                const removeBtn = entry.querySelector('.remove-contact-btn');
+
+                methodSelect.innerHTML = `
+                    <option value="whatsapp" ${selectedMethods.includes('whatsapp') && methodSelect.value !== 'whatsapp' ? 'disabled' : ''}>واتساب</option>
+                    <option value="phone" ${selectedMethods.includes('phone') && methodSelect.value !== 'phone' ? 'disabled' : ''}>رقم هاتف</option>
+                    <option value="instagram" ${selectedMethods.includes('instagram') && methodSelect.value !== 'instagram' ? 'disabled' : ''}>إنستغرام</option>
+                    <option value="other" ${selectedMethods.includes('other') && methodSelect.value !== 'other' ? 'disabled' : ''}>أخرى</option>
+                `;
+
+                methodSelect.value = methodSelect.value || 'whatsapp';
+
+                methodSelect.onchange = () => {
+                    if (methodSelect.value === 'whatsapp' || methodSelect.value === 'phone') {
+                        countryCodeInput.style.display = 'block';
+                        contactInfo.placeholder = `أدخل رقم ${methodSelect.value === 'whatsapp' ? 'الواتساب' : 'الهاتف'}`;
+                    } else {
+                        countryCodeInput.style.display = 'none';
+                        contactInfo.placeholder = methodSelect.value === 'instagram' ? 'أدخل معرف إنستغرام' : 'أدخل تفاصيل التواصل';
+                    }
+                    updateContactMethodFields();
+                };
+
+                if (methodSelect.value === 'whatsapp' || methodSelect.value === 'phone') {
+                    countryCodeInput.style.display = 'block';
+                    contactInfo.placeholder = `أدخل رقم ${methodSelect.value === 'whatsapp' ? 'الواتساب' : 'الهاتف'}`;
+                } else {
+                    countryCodeInput.style.display = 'none';
+                    contactInfo.placeholder = methodSelect.value === 'instagram' ? 'أدخل معرف إنستغرام' : 'أدخل تفاصيل التواصل';
+                }
+
+                if (index === 0) {
+                    removeBtn.style.display = 'none';
+                } else {
+                    removeBtn.style.display = 'flex';
+                }
+            });
+
+            if (contactMethods.length >= 4) {
+                addContactBtn.classList.add('hidden');
+            } else {
+                addContactBtn.classList.remove('hidden');
+            }
+        }
+
+        async function postListing() {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            const postBtn = document.getElementById('postBtn');
+            if (postBtn.classList.contains('loading')) return;
+
+            postBtn.classList.add('loading');
+            const listingType = document.getElementById('listing-type').value;
+            const price = document.getElementById('listing-price').value;
+            const currency = document.getElementById('currency').value;
+            const city = document.getElementById('city').value;
+            const neighborhood = document.getElementById('neighborhood').value;
+            const manualAddress = document.getElementById('manual-address').value;
+            const description = document.getElementById('listing-description').value;
+            const contactMethods = document.querySelectorAll('.contact-method-entry');
+
+            if (!listingType || !price || !city) {
+                showCustomAlert('يرجى ملء جميع الحقول المطلوبة', 'error');
+                postBtn.classList.remove('loading');
+                return;
+            }
+
+            let contacts = [];
+            let contactError = false;
+            const selectedMethods = [];
+
+            contactMethods.forEach(entry => {
+                const method = entry.querySelector('.contact-method').value;
+                const countryCode = entry.querySelector('.country-code-input').value.trim();
+                const info = entry.querySelector('.contact-info').value.trim();
+
+                if (selectedMethods.includes(method)) {
+                    contactError = true;
+                    showCustomAlert('لا يمكن اختيار نفس طريقة التواصل أكثر من مرة', 'error');
+                    return;
+                }
+                selectedMethods.push(method);
+
+                if (!info) {
+                    contactError = true;
+                    showCustomAlert('يرجى إدخال تفاصيل التواصل لجميع الحقول', 'error');
+                    return;
+                }
+
+                if (method === 'whatsapp' || method === 'phone') {
+                    if (!countryCode) {
+                        contactError = true;
+                        showCustomAlert('يرجى إدخال رمز الدولة لـ ' + (method === 'whatsapp' ? 'واتساب' : 'رقم الهاتف'), 'error');
+                        return;
+                    }
+                    if (!countryCode.match(/^\+\d{1,4}$/)) {
+                        contactError = true;
+                        showCustomAlert('رمز الدولة يجب أن يكون بصيغة صحيحة (مثل +963)', 'error');
+                        return;
+                    }
+                }
+
+                contacts.push({ 
+                    method, 
+                    countryCode: (method === 'whatsapp' || method === 'phone') ? countryCode : '', 
+                    info 
+                });
+            });
+
+            if (contactError) {
+                postBtn.classList.remove('loading');
+                return;
+            }
+
+            try {
+                let imageUrls = [];
+                if (selectedMedia.length > 0) {
+                    for (const file of selectedMedia) {
+                        const storageRef = storage.ref(`listings/${user.uid}/${Date.now()}_${file.name}`);
+                        await storageRef.put(file);
+                        const url = await storageRef.getDownloadURL();
+                        imageUrls.push(url);
+                    }
+                }
+
+                const listingData = {
+                    userId: user.uid,
+                    name: currentUserData.name || 'مستخدم',
+                    avatar: currentUserData.avatar || 'https://via.placeholder.com/50',
+                    type: listingType,
+                    price: parseFloat(price),
+                    currency,
+                    city,
+                    neighborhood: neighborhood || '',
+                    manualAddress: manualAddress || '',
+                    description: description || '',
+                    images: imageUrls,
+                    contacts,
+                    time: firebase.firestore.FieldValue.serverTimestamp(),
+                    comments: {}
+                };
+
+                const docRef = await db.collection('listings').add(listingData);
+                listingData.id = docRef.id;
+                listings.unshift(listingData);
+                await renderSingleListing(listingData, user.uid, document.getElementById('feed'), true);
+                closePostModal();
+                showCustomAlert('تم نشر الإعلان بنجاح', 'success');
+            } catch (error) {
+                console.error("خطأ في نشر الإعلان:", error);
+                showCustomAlert('خطأ في نشر الإعلان', 'error');
+            } finally {
+                postBtn.classList.remove('loading');
+            }
+        }
+
+        document.getElementById('mediaUpload').addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (files.length > 1) {
+                showCustomAlert('يمكنك رفع صورة واحدة فقط', 'error');
+                return;
+            }
+            if (files.length === 0) return;
+
+            const file = files[0];
+            if (!file.type.startsWith('image/')) {
+                showCustomAlert('يرجى اختيار ملف صورة', 'error');
+                return;
+            }
+
+            selectedMedia = [file];
+            const preview = document.getElementById('mediaPreview');
+            preview.innerHTML = '';
+
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.alt = 'معاينة الصورة';
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-media';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = () => {
+                selectedMedia = [];
+                preview.innerHTML = '';
+                document.getElementById('mediaUpload').value = '';
+            };
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            preview.appendChild(wrapper);
+        });
+
+        document.getElementById('listing-description').addEventListener('input', updateCharCount);
+
+        function updateCharCount() {
+            const description = document.getElementById('listing-description').value;
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = 500 - description.length;
+        }
+
+        function timeAgo(timestamp) {
+            const now = Date.now();
+            const seconds = Math.floor((now - timestamp) / 1000);
+            if (seconds < 60) return 'الآن';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `منذ ${minutes} دقيقة`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `منذ ${hours} ساعة`;
+            const days = Math.floor(hours / 24);
+            return `منذ ${days} يوم`;
+        }
+
+        document.getElementById('searchInput').addEventListener('input', () => {
+            const user = firebase.auth().currentUser;
+            if (user) renderListings(user.uid);
+        });
+
+        document.getElementById('refreshBtn').addEventListener('click', async () => {
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                showCustomAlert('يرجى تسجيل الدخول لتحديث الإعلانات', 'error');
+                return;
+            }
+
+            const now = Date.now();
+            const currentDate = new Date().toISOString().split('T')[0];
+
+            let refreshData = JSON.parse(localStorage.getItem('refreshData') || '{}');
+            let lastRefreshTime = refreshData.lastRefreshTime || 0;
+            let dailyRefreshCount = refreshData.dailyRefreshCount || 0;
+            let lastRefreshDate = refreshData.lastRefreshDate || '';
+            let refreshLog = refreshData.refreshLog || [];
+
+            if (lastRefreshDate !== currentDate) {
+                dailyRefreshCount = 0;
+                lastRefreshDate = currentDate;
+                refreshLog = [];
+            }
+
+            const MAX_DAILY_REFRESH = 10;
+            if (dailyRefreshCount >= MAX_DAILY_REFRESH) {
+                showCustomAlert('لقد تجاوزت الحد الأقصى للتحديثات اليومية', 'error');
+                return;
+            }
+
+            const MIN_REFRESH_INTERVAL = 30000;
+            if (now - lastRefreshTime < MIN_REFRESH_INTERVAL) {
+                showCustomAlert('يرجى الانتظار 30 ثانية قبل التحديث مرة أخرى', 'error');
+                return;
+            }
+
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.disabled = true;
+            refreshBtn.style.opacity = '0.5';
+
+            try {
+                refreshLog.push({
+                    timestamp: now,
+                    reason: 'تحديث يدوي',
+                    userId: user.uid
+                });
+
+                dailyRefreshCount += 1;
+                lastRefreshTime = now;
+
+                refreshData = {
+                    lastRefreshTime,
+                    dailyRefreshCount,
+                    lastRefreshDate,
+                    refreshLog
+                };
+                localStorage.setItem('refreshData', JSON.stringify(refreshData));
+
+                await loadListings(user.uid);
+                showCustomAlert('تم تحديث الإعلانات بنجاح', 'success');
+            } catch (error) {
+                console.error("خطأ في تحديث الإعلانات:", error);
+                showCustomAlert('خطأ في تحديث الإعلانات', 'error');
+            } finally {
+                setTimeout(() => {
+                    refreshBtn.disabled = false;
+                    refreshBtn.style.opacity = '1';
+                }, MIN_REFRESH_INTERVAL);
+            }
+        });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                // Do not refresh listings automatically
+            }
+        });
+    </script>
+</body>
+</html>
