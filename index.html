@@ -2,290 +2,275 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <iframe data-aa='2407817' src='//ad.a-ads.com/2407817?size=300x250' style='width:300px; height:250px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
-    <title>SyriaPay | إيداع</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Point - تطبيق النقاط الربحي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #FFFFFF;
-            --secondary-color: #F9F9F9;
-            --accent-color: #0147FF;
-            --accent-secondary: #C3A159;
-            --text-primary: #000000;
-            --text-secondary: #525252;
-            --positive-color: #00C076;
-            --negative-color: #F6465D;
-            --card-bg: #FFFFFF;
-            --border-color: #E4E4E4;
-            --button-bg: #FFFFFF;
-            --glass-bg: rgba(255, 255, 255, 0.3);
-            --glass-blur: blur(20px);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --silver-glass: rgba(192, 192, 192, 0.3);
+            --primary: #7B00FF;
+            --primary-light: #F0E6FF;
+            --secondary: #F0B90B;
+            --dark: #1A1A1A;
+            --light: #FFFFFF;
+            --gray: #6B7280;
+            --gradient: linear-gradient(135deg, #7B00FF 0%, #9D4EFF 100%);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-primary);
+            background: var(--light);
+            color: var(--dark);
             min-height: 100vh;
-            user-select: none;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         .container {
-            max-width: 480px;
-            margin: 0 auto;
-            padding: 15px;
-            padding-bottom: 80px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
 
-        /* Header Section */
-        .header {
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            margin: 0 auto 20px;
+            box-shadow: var(--shadow);
+            border: 4px solid var(--primary-light);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .app-title {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-company {
+            font-size: 1.1em;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .app-tagline {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .stats {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
         }
 
-        .logo {
-            font-size: 22px;
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.4em;
             font-weight: 700;
-            color: #000000;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .rating {
             display: flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            margin-top: -10px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .header-icon {
-            width: 32px;
-            height: 32px;
-            filter: brightness(0.8);
-            }
-
-        /* Deposit Section */
-        .deposit-section {
+            justify-content: center;
             margin: 20px 0;
         }
 
-        .section-title {
-            font-size: 20px;
+        .stars {
+            color: var(--secondary);
+            margin-left: 8px;
+        }
+
+        .rating-value {
             font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-primary);
+            font-size: 1.1em;
         }
 
-        .deposit-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .method-card {
-            background: linear-gradient(135deg, #F9F9F9, #FFFFFF);
-            border-radius: 15px;
-            padding: 20px;
-            display: flex;
+        .install-button {
+            background: var(--gradient);
+            color: white;
+            padding: 16px 35px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 50px;
+            display: inline-flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .method-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .method-icon {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        .method-info {
-            flex: 1;
-        }
-
-        .method-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--accent-color);
-        }
-
-        .method-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Bottom Navigation */
-        .nav-container {
-            position: fixed;
-            bottom: 20px;
-            left: 5%;
-            right: 5%;
-            background: var(--silver-glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            padding: 10px 0;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container:hover {
-            transform: translateY(-5px);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .nav button {
-            background: transparent;
-            border: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav button img {
-            width: 30px;
-            height: 30px;
-            filter: brightness(0) invert(0.2);
-        }
-
-        .nav button:hover {
-            transform: scale(1.2);
-        }
-
-        .nav button.active img {
-            filter: none;
-        }
-
-        /* Popup */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
             justify-content: center;
-            align-items: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(123, 0, 255, 0.3);
         }
 
-        .popup-content {
-            background-color: var(--secondary-color);
-            border-radius: 12px;
-            padding: 20px;
-            width: 85%;
-            max-width: 350px;
+        .install-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(123, 0, 255, 0.4);
+        }
+
+        .install-button i {
+            margin-left: 10px;
+        }
+
+        .screenshots {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .screenshot {
+            width: 160px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .feature {
+            background: var(--primary-light);
+            padding: 15px;
+            border-radius: 15px;
             text-align: center;
-            border: 1px solid var(--border-color);
         }
 
-        .popup-message {
-            margin-bottom: 20px;
-            line-height: 1.5;
+        .feature i {
+            font-size: 1.5em;
+            color: var(--primary);
+            margin-bottom: 8px;
         }
 
-        .popup-btn {
-            background-color: var(--accent-color);
-            color: #FFFFFF;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
+        .feature-text {
+            font-size: 0.9em;
             font-weight: 600;
-            width: 100%;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--gray);
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .app-title {
+                font-size: 2em;
+            }
+            
+            .stats {
+                gap: 20px;
+            }
+            
+            .screenshot {
+                width: 140px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">
-                <img src="https://img.icons8.com/pastel-glyph/999/0147FF/paper-plane--v1.png" class="logo-icon">
-                <span>SyriaPay</span>
+        <img src="https://www2.0zz0.com/2025/10/30/15/673042675.jpg" alt="Point" class="app-icon">
+        
+        <h1 class="app-title">Point</h1>
+        <div class="app-company">Syr App</div>
+        <div class="app-tagline">ربح النقاط واستبدلها بمكافآت حقيقية</div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">35 MB</div>
+                <div class="stat-label">الحجم</div>
             </div>
-            <div class="header-actions">
-                <img src="https://img.icons8.com/material-rounded/999/bell--v1.png" class="header-icon" onclick="navigateTo('go:notifications')">
-                <img src="https://img.icons8.com/fluency-systems-regular/999/user-male-circle--v1.png" class="header-icon" onclick="navigateTo('go:settings')">
+            <div class="stat">
+                <div class="stat-value">4.8</div>
+                <div class="stat-label">التقييم</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">7K+</div>
+                <div class="stat-label">التنزيلات</div>
             </div>
         </div>
 
-<div id="frame" style="width: 300px;margin: auto;z-index: 99998;height: auto">
-          <iframe data-aa='2407820' src='//ad.a-ads.com/2407820/?size=300x90'
-                            style='border:0; padding:0; width:300px; height:90px; overflow:hidden;display: block;margin: auto'></iframe>
+        <div class="rating">
+            <div class="rating-value">4.8</div>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
         </div>
-        <!-- Deposit Section -->
-        <div class="deposit-section">
-            <div class="section-title">اختر طريقة الإيداع</div>
-            <div class="deposit-methods">
-                <div class="method-card" onclick="navigateTo('go:deposit_shamcash')">
-                    <img src="https://up6.cc/2025/08/175568939648361.png" class="method-icon">
-                    <div class="method-info">
-                        <div class="method-name">شام كاش</div>
-                        <div class="method-desc">إيداع سريع وآمن عبر شام كاش</div>
-                    </div>
-                </div>
-                <div class="method-card" onclick="navigateTo('go:deposit_binance')">
-                    <img src="https://up6.cc/2025/08/17556877080131.png" class="method-icon">
-                    <div class="method-info">
-                        <div class="method-name">بايننس</div>
-                        <div class="method-desc">إيداع عبر العملات الرقمية مع بايننس</div>
-                    </div>
+
+        <a href="https://apk.e-droid.net/apk/app3768860-bha386.apk?v=2" class="install-button" target="_blank">
+            <i class="fas fa-download"></i>
+            تنزيل التطبيق
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-coins"></i>
+                <div class="feature-text">ربح النقاط</div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-gift"></i>
+                <div class="feature-text">مكافآت حقيقية</div>
+            </div>
+           
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <div class="feature-text">إحالة الأصدقاء</div>
+            </div>
+        </div>
+
+        <div class="screenshots">
+            <img src="https://www2.0zz0.com/2025/10/30/16/755440222.jpg" alt="لقطة 1" class="screenshot">
+            <img src="https://www2.0zz0.com/2025/10/30/16/785077446.jpg" alt="لقطة 2" class="screenshot">
+        </div>
     </div>
 
-    <!-- Popup -->
-    <div class="popup" id="popup">
-        <div class="popup-content">
-            <div class="popup-message" id="popupMessage">تم تحديد طريقة الإيداع بنجاح</div>
-            <button class="popup-btn" onclick="closePopup()">حسناً</button>
-        </div>
-    </div>
-
-    <script>
-        // Navigate to page
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-
-        // Show popup message
-        function showPopup(message) {
-            document.getElementById("popupMessage").textContent = message;
-            document.getElementById("popup").style.display = "flex";
-            setTimeout(closePopup, 3000);
-        }
-
-        // Close popup
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-        }
-    </script>
+    <footer>
+        &copy; 2026 Point - Syr App. جميع الحقوق محفوظة
+    </footer>
 </body>
 </html>
